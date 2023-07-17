@@ -1,0 +1,55 @@
+{title : 'Spider-Man : No way home',writer : ['Chris McKenna','Erik Sommers'],franchise : 'Spider-Man',year : 2022,director : 'Jon Watts'}
+
+{title : 'Fight Club',writer : 'Chuck Palahniuk',year : 1999,actors : ['Brad Pitt','Edward Norton']} 
+
+
+{title : 'Pulp Fiction',writer : 'Quentin Tarantino',year : 1994,actors : [ 'John Travolta','Uma Thurman' ]},
+
+{title : 'Inglorious Basterds',writer : 'Quentin Tarantino',year : 2009,actors : [ 'Brad Pitt','Diane Kruger','Eli Roth']},
+
+{title : 'The Batman',writer : [ 'Matt Reeves','Peter Craig'],year : 2022,director : 'Matt Reeves',Music : 'Michael Giacchino'},
+
+{title : 'The Hobbit: An Unexpected Journey',writer : 'J.R.R. Tolkein',year : 2012,franchise : 'The Hobbit'},
+
+{title : 'The Hobbit: The Desolation of Smaug',writer : 'J.R.R. Tolkein',year : 2013,franchise : 'The Hobbit'},
+
+{title : 'The Hobbit: The Battle of the Five Armies',writer : 'J.R.R. Tolkein',year : 2012,franchise : 'The Hobbit',synopsis : 'Bilbo and Company are forced to engage in a war against an array of combatants and keep the Lonely Mountain from falling into the hands of a rising darkness.'},
+
+{title : 'Uncharted',year : 2022,actors : ['Tom Holland','Mark Wahlberg','Antonio Banderas'],synopsis: 'Uncharted follows the self-proclaimed ancestor of Sir Francis Drake, Nathan "Nate" Drake, and his quest to unveil the secrets of El Dorado itself. Little does Drake know that there is more to the legend than the world knows and its secret could change humanity forever.'},
+
+{title : 'The Lost City',year : 2022,actors : [ 'Sandra Bullock','Channing Tatum','Daniel Radcliffe','Da'Vine Joy Randolph','Brad Pitt']},
+
+{title : 'Pee Wee Herman`s Big Adventure'},
+
+{title : 'Avatar'},
+
+{title : 'MoonFall',writer : [ 'Roland Emmerich','Harald Kloser','Spenser Cohen'],year : 2022,synopsis : 'In Moonfall, a mysterious force knocks the Moon from its orbit around Earth and sends it hurtling on a collision course with life as we know it.'},
+
+{title : 'Morbius',year : 2022,actors : [ 'Jared Leto','Matt Smith','Adria Arjona']},
+
+{title : 'Eternals',year : 2021,director: 'Chloe Zhao'}
+
+
+
+db.movies.updateOne({title:'The Hobbit: An Unexpected Journey'},{$set: {synopsis: `A reluctant hobbit, Bilbo Baggins, sets out tothe Lonely Mountain with a spirited group of d warves to reclaim their mountain home - and the gold within it - from the dragon Smaug.`}})
+
+db.movies.updateOne({title:`The Hobbit: The Desolation of Smaug`},{$set: {synopsis: `The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring.`}})
+
+db.movies.updateOne({title:`Pulp Fiction`},{$push:{actors:[`Samuel L. Jackson`]}})
+
+db.movies.updateOne({title:`Eternals`},{$push:{actors:{$each: ["Harry Styles", "Angelina Jolie", "Kit Harington","Gemma Chan", "Richard Madden"] }}})
+
+db.movies.updateOne({title:`Morbius`},{$set:{director:`Daniel Espinosa`}})
+
+db.movies.updateOne({title:`Morbius`},{$set:{rating:3}})
+db.movies.updateOne({title:`The Lost City`},{$set:{rating:1}})
+db.movies.updateOne({title:`MoonFall`},{$set:{rating:2}})
+db.movies.updateOne({title:`Eternals`},{$set:{rating:3}})
+db.movies.updateOne({title:'Pee Wee Herman`s Big Adventure'},{$set:{rating:5}})
+
+
+
+db.movies.find({ $and: [ { synopsis: /Bilbo/  }, { synopsis: { $not: { /Gandalf/ } } } ] })
+
+db.movies.deleteOne({ title: "Pee Wee Herman's Big Adventure" })
+

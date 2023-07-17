@@ -1,0 +1,194 @@
+------------------examen-----------------
+	MARCO ANTONIO ROCA MONTENEGRO
+	55995
+	Universidad Privada Boliviana
+1. 
+	a. db.libros.find( {precio:{$lt:30}})
+	b. db.libros.find( {$and:[{precio:{$lte:45}}, {precio:{$gte:20}}]})
+	c. db.libros.find({editorial: /Planeta/})
+	d.  db.libros.find({editorial:{$not: /Planeta/}})
+	e. db.articulos.find({rubro:{$not: /impresora/}})
+	f. db.articulos.find({$and: [ {stock:{$lte: 4}}, {stock:{$gte:0}}]})
+	
+----------------------------------------------------------------------------------------
+2. Crear ALUMNOS DE LA U y GUSTOS MUSICALES
+	/*
+		>> alumnosUpb
+	Mis alumnos van a ser identificados por _id
+	Contienen otros 3 parametros: Nombre - Apellido - Carrera
+
+	Los gustos musicales es mas simple:
+		>> musicasAlumnos
+	Contiene el Estilo (nombre del estilo musical)
+	Y un arreglo con los _id (alumnos) para tener relaciones
+	*/
+
+
+	//alumno 1
+		{_id: 55995, Nombre: `Marco`, Apellido: `Roca`, Carrera: `Ing. en Sistemas`}
+
+		db.alumnosUpb.insertOne({_id: 55995, Nombre: `Marco`, Apellido: `Roca`, Carrera: `Ing. en Sistemas`})
+	//mas Alumnos
+		var datos = [
+			{_id: 55994, Nombre: `Valeria`, Apellido: `Roca`, Carrera: `Ing. en Sistemas`},
+			{_id: 55993, Nombre: `Luis`, Apellido: `Roca`, Carrera: `Marketing`},
+			{_id: 55992, Nombre: `Agustina`, Apellido: `Choque`, Carrera: `Marketing`},
+			{_id: 55991, Nombre: `Alan`, Apellido: `Perez`, Carrera: `Admin`},
+			{_id: 55999, Nombre: `Justin`, Apellido: `Saldias`, Carrera: `Ing. en Sistemas`},
+			{_id: 55998, Nombre: `Lizbeth`, Apellido: `Armas`, Carrera: `Arquitectura`},
+			{_id: 55997, Nombre: `Francisco`, Apellido: `Romero`, Carrera: `Disenhio`},
+			{_id: 55996, Nombre: `Simon`, Apellido: `Bolivar`, Carrera: `Ing. en Sistemas`}
+		]
+	db.alumnosUpb.insertMany(datos);
+
+//FIND DE MIS DATOS ALUMNOS
+	1. (prueba): db.alumnosUpb.find()  --> tengo 9 datos.
+
+
+	//gustosMusicales
+		{Estilo: `pop`, Alumnos: [55995,55992,55991]}
+
+		db.musicasAlumnos.insertOne({Estilo: `pop`, Alumnos: [55995,55992,55991]})
+	//masDatos
+		var datos = [
+			{Estilo: `pop`, Alumnos: [55995,55992,55991]},							
+			{Estilo: `rock`, Alumnos: [55998,55999,55994,55992]},
+			{Estilo: `clasica`, Alumnos: [55994]},
+			{Estilo: `regueton`, Alumnos: [55999]},
+			{Estilo: `trap`, Alumnos: [55993,55996,55997]},
+			{Estilo: `cristiano`, Alumnos: [55992,55991]},
+			{Estilo: `kpop`, Alumnos: [55995,55992,55998,55999,55998]},
+			{Estilo: `salay`, Alumnos: [55995]}
+		]
+
+		db.musicasAlumnos.insertMany(datos)
+
+
+		//find
+		db.musicasAlumnos.find().count() --> tengo 9 datos
+
+
+
+	----->TODOS DEBEN TENER OR u AND
+		>>mostrar datos de salay o kpop
+	db.musicasAlumnos.find({$or:[{Estilo: `salay`},{Estilo: `kpop`}]})
+		>>mostra datos Estilo empieza k y alumno sea 55995
+	db.musicasAlumnos.find({$and:[{Estilo: /^k/},{Alumnos: 55995}]})
+		>>mostrar alumnos cuyo nombre empiece con A y apellino no empiece con P
+	db.alumnosUpb.find({ $and:[ {Nombre: /^A/}, {Apellido:{$not: /^P/}}]})
+		>>mostrar alumnos cuyo apellido empiece con R o que su carrera empiece con A
+	db.alumnosUpb.find({ $or:[ {Apellido: /^R/}, {Carrera: /^A/}]})
+
+			ME FALTA PONERLE UN INDEXXXXXXX
+	db.alumnosUpb.ensureIndex({_id:1,Apellido: 1})
+
+	db.musicasAlumnos.ensureIndex({Alumnos: -1})
+
+	----------------------------------------------------------------------------------------
+	3.
+
+		//personas  --10
+		/*
+			--La tabla personas tendra la relacion por array de los vehiculos.
+				Por ende, voy a otorgarle a cada vehiculo un _id predeterminado para
+				asi tener mejor control.
+
+				Cada persona puede tener 1 o mas vehiculos que son de sus gustos
+
+		*/
+
+			{CI: 55995, Nombre: `Marco`, Apellido: `Roca`, Fecha_Nacimiento: `01/07/2023`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`, Vehiculos: [1]}
+
+			db.personas.insertOne({CI: 55995, Nombre: `Marco`, Apellido: `Roca`, Fecha_Nacimiento: `01/07/2023`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`})
+
+				var datos = [
+					{CI: 55996, Nombre: `Valeria`, Apellido: `Roca`, Fecha_Nacimiento: `01/07/2023`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`},
+					{CI: 55997, Nombre: `Luis`, Apellido: `Roca`, Fecha_Nacimiento: `02/07/2023`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`, Vehiculos: [1]},
+					{CI: 55998, Nombre: `Agustina`, Apellido: `Roca`, Fecha_Nacimiento: `01/07/2021`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`, Vehiculos: [2,3]},
+					{CI: 55999, Nombre: `Alexey`, Apellido: `Davalos`, Fecha_Nacimiento: `01/07/2020`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`, Vehiculos: [5]},
+					{CI: 55981, Nombre: `Hector`, Apellido: `Ichazo`, Fecha_Nacimiento: `01/07/2023`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`, Vehiculos: [1,2,3]},
+					{CI: 55982, Nombre: `Arturo`, Apellido: `Barrientos`, Fecha_Nacimiento: `01/07/2023`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`, Vehiculos: [4,5]},
+					{CI: 55983, Nombre: `Justin`, Apellido: `Saldias`, Fecha_Nacimiento: `01/07/2023`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`, Vehiculos: [2]},
+					{CI: 55984, Nombre: `Juan`, Apellido: `Asurdui`, Fecha_Nacimiento: `01/07/2023`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`, Vehiculos: [5]},
+					{CI: 55985, Nombre: `Martin`, Apellido: `Achiya`, Fecha_Nacimiento: `01/07/2023`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`, Vehiculos: [1]},
+					{CI: 55986, Nombre: `Marco`, Apellido: `Hachiya`, Fecha_Nacimiento: `01/07/2023`, Ciudad: `Santa_Cruz`, Pais: `Bolivia`, Vehiculos: [1]}
+				]
+
+			db.personas.insertMany(datos)
+			
+
+
+		//vehiculos --5
+			{_id:1,Marca: `Suzuki`, Cilindrada: 2, Cant_Ruedas: 4, Precio: 2000}
+
+			db.vehiculos.insertOne({_id:1,Marca: `Suzuki`, Cilindrada: 2, Cant_Ruedas: 4, Precio: 2000})
+
+			var datos = [
+				{_id:2,Marca: `Nissan`, Cilindrada: 2, Cant_Ruedas: 4, Precio: 2000},
+				{_id:3,Marca: `BMW`, Cilindrada: 5, Cant_Ruedas: 2, Precio: 18000},
+				{_id:4,Marca: `Toyota`, Cilindrada: 3, Cant_Ruedas: 4, Precio: 30000},
+				{_id:5,Marca: `Mercedes`, Cilindrada: 2, Cant_Ruedas: 4, Precio: 55000},
+			]
+
+
+			db.vehiculos.insertMany(datos)
+-----------------------------------------------------------------------------------------------------------
+4.
+	2 sentencias FIND PARA CADA COLECCION
+
+	colecciones que tengo: 
+		alumnosUpb
+		articulos
+		libros
+		musicasAlumnos
+		personas
+		vehiculos
+	a) 2 finds con OR / NAD y LT / GT / NE
+				db.<>.find({ $or:[ {},{} ]})
+				db.<>.find({ $and:[ {},{} ]})
+		1. 
+			db.alumnosUpb.find({ $or:[{_id:{$lt: 55993}},{_id:{$gt: 55996}}]})
+			db.alumnosUpb.find({ $and:[{_id:{$lt: 55993}},{_id:{$not:{$gt: 55996}}}]})
+		2. 
+			db.articulos.find({ $or:[ {precio:{$lt:400}},{precio:{$gt:10000}} ]})
+			db.articulos.find({ $and:[ {_id:{$gte:3}}, {stock:{$lte: 2}} ]})
+		3.
+			db.libros.find({ $or:[ {_id:4},{_id:{$lte:2}} ]})
+			db.libros.find( {$and:[{precio:{$lte:70}}, {precio:{$gte:30}}]})
+		4.
+			db.musicasAlumnos.find({ $or:[ {Alumnos:{$gte: 55999}},{Estilo:`kpop`} ]})
+			db.musicasAlumnos.find({ $and:[ {Alumnos:{$gte: 55998}},{Alumnos:{$lte:55997}} ]})
+		5.
+			db.personas.find({ $or:[ {CI:{$lt:55986}},{CI:{$gt:55994}} ]})
+			db.personas.find({ $and:[ {CI:{$gt:55981}},{CI:{$lte:55992}} ]})
+		6.
+			db.vehiculos.find({ $or:[ {Precio:{gte:3000}},{Precio:{$lte:100000}} ]})
+			db.vehiculos.find({ $and:[ {Precio:{$lte:3000}},{Cilindrada:{$lte:2}} ]})
+
+	b) limites
+
+		1. 
+			db.alumnosUpb.find({ $or:[{_id:{$lt: 55993}},{_id:{$gt: 55996}}]}).limit(1)
+			db.alumnosUpb.find({ $and:[{_id:{$lt: 55993}},{_id:{$not:{$gt: 55996}}}]}).limit(1)
+		2. 
+			db.articulos.find({ $or:[ {precio:{$lt:400}},{precio:{$gt:10000}} ]}).limit(1)
+			db.articulos.find({ $and:[ {_id:{$gte:3}}, {stock:{$lte: 2}} ]}).limit(1)
+		3.
+			db.libros.find({ $or:[ {_id:4},{_id:{$lte:2}} ]}).limit(1)
+			db.libros.find( {$and:[{precio:{$lte:70}}, {precio:{$gte:30}}]}).limit(1)
+		4.
+			db.musicasAlumnos.find({ $or:[ {Alumnos:{$gte: 55999}},{Estilo:`kpop`} ]}).limit(1)
+			db.musicasAlumnos.find({ $and:[ {Alumnos:{$gte: 55998}},{Alumnos:{$lte:55997}} ]}).limit(1)
+		5.
+			db.personas.find({ $or:[ {CI:{$lt:55986}},{CI:{$gt:55994}} ]}).limit(1)
+			db.personas.find({ $and:[ {CI:{$gt:55981}},{CI:{$lte:55992}} ]}).limit(1)
+		6.
+			db.vehiculos.find({ $or:[ {Precio:{gte:3000}},{Precio:{$lte:100000}} ]}).limit(1)
+			db.vehiculos.find({ $and:[ {Precio:{$lte:3000}},{Cilindrada:{$lte:2}} ]}).limit(1)
+
+
+	c)
+
+
+
+"C:\Program Files\MongoDB\Tools\100\bin\mongodump.exe" --db Roca_Marco_EXAMEN

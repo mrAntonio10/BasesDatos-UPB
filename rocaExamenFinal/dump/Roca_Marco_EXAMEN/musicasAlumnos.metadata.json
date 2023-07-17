@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"Alumnos":{"$numberInt":"-1"}},"name":"Alumnos_-1"}],"uuid":"75f5178768fe4cd8a8032ec513f02045","collectionName":"musicasAlumnos","type":"collection"}

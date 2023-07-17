@@ -1,0 +1,183 @@
+var dato=[{nombre: 'Marco Antonio',apellidos: 'Roca Montenegro',nacionalidad: 'Boliviano',ci: 12413105 ,FechaNac: '01/07/2001', Edad: 21,Sexo:'M', FechaIngreso: '30/12/2020'},
+
+{
+  "nombre": "Sofía",
+  "apellidos": "Ramírez García",
+  "nacionalidad": "Mexicana",
+  "ci": 87654321,
+  "FechaNac": "15/02/1995",
+  "Edad": 27,
+  "Sexo": "F",
+  "FechaIngreso": "10/05/2018"
+},
+
+{
+  "nombre": "John",
+  "apellidos": "Smith",
+  "nacionalidad": "Estadounidense",
+  "ci": 98765432,
+  "FechaNac": "20/11/1988",
+  "Edad": 33,
+  "Sexo": "M",
+  "FechaIngreso": "01/03/2010"
+},
+
+{
+  "nombre": "María",
+  "apellidos": "López Torres",
+  "nacionalidad": "Española",
+  "ci": 55555555,
+  "FechaNac": "12/09/1990",
+  "Edad": 31,
+  "Sexo": "F",
+  "FechaIngreso": "20/06/2015"
+},
+
+{
+  "nombre": "Luis",
+  "apellidos": "González Rodríguez",
+  "nacionalidad": "Mexicano",
+  "ci": 45678901,
+  "FechaNac": "03/04/1992",
+  "Edad": 29,
+  "Sexo": "M",
+  "FechaIngreso": "15/10/2017"
+},
+
+{
+  "nombre": "Anna",
+  "apellidos": "Andersen",
+  "nacionalidad": "Noruega",
+  "ci": 11111111,
+  "FechaNac": "25/06/1985",
+  "Edad": 36,
+  "Sexo": "F",
+  "FechaIngreso": "05/09/2011"
+},
+
+{
+  "nombre": "Anna",
+  "apellidos": "Andersen",
+  "nacionalidad": "Noruega",
+  "ci": 11111111,
+  "FechaNac": "25/06/1985",
+  "Edad": 36,
+  "Sexo": "F",
+  "FechaIngreso": "05/09/2011"
+},
+
+{
+  "nombre": "Isabel",
+  "apellidos": "Fernández López",
+  "nacionalidad": "Española",
+  "ci": 33333333,
+  "FechaNac": "17/03/1987",
+  "Edad": 34,
+  "Sexo": "F",
+  "FechaIngreso": "25/07/2012"
+},
+
+
+{
+    "nombre": "Luisa Fernanda",
+    "apellidos": "González Mendoza",
+    "nacionalidad": "Colombiana",
+    "ci": 17839265,
+    "FechaNac": "12/05/1990",
+    "Edad": 31,
+    "Sexo": "F",
+    "FechaIngreso": "20/02/2017"
+  },
+  {
+    "nombre": "David",
+    "apellidos": "Martínez Gómez",
+    "nacionalidad": "Español",
+    "ci": 29751845,
+    "FechaNac": "19/11/1982",
+    "Edad": 39,
+    "Sexo": "M",
+    "FechaIngreso": "14/07/2010"
+  },
+  {
+    "nombre": "Maria",
+    "apellidos": "Andrade Silva",
+    "nacionalidad": "Brasileña",
+    "ci": 45216789,
+    "FechaNac": "03/09/1998",
+    "Edad": 24,
+    "Sexo": "F",
+    "FechaIngreso": "28/03/2021"
+  },
+  {
+    "nombre": "Mohammed",
+    "apellidos": "Ahmed Hassan",
+    "nacionalidad": "Egipcio",
+    "ci": 81273591,
+    "FechaNac": "07/12/1985",
+    "Edad": 38,
+    "Sexo": "M",
+    "FechaIngreso": "02/10/2013"
+  },
+  {
+    "nombre": "Sophie",
+    "apellidos": "Dupont",
+    "nacionalidad": "Francesa",
+    "ci": 64372951,
+    "FechaNac": "25/06/1996",
+    "Edad": 25,
+    "Sexo": "F",
+    "FechaIngreso": "09/04/2019"
+  },
+  {
+    "nombre": "Andrés",
+    "apellidos": "Hernández López",
+    "nacionalidad": "Mexicano",
+    "ci": 25983416,
+    "FechaNac": "14/08/1992",
+    "Edad": 29,
+    "Sexo": "M",
+    "FechaIngreso": "06/03/2016"
+  },
+  {
+    "nombre": "Isabella",
+    "apellidos": "Rossi",
+    "nacionalidad": "Italiana",
+    "ci": 59642138,
+    "FechaNac": "28/02/1994",
+    "Edad": 27,
+    "Sexo": "F",
+    "FechaIngreso": "18/09/2018"
+  },
+  {
+    "nombre": "Santiago",
+    "apellidos": "García Ramírez",
+    "nacionalidad": "Colombiano",
+    "ci": 13457826,
+    "FechaNac": "09/11/1987",
+    "Edad": 34,
+    "Sexo": "M",
+    "FechaIngreso": "27/06/2012"
+  }]
+----------------------PARA INSERTAR-----------------
+  db.migracion.insertMany(dato)
+
+  ------------------COMANDOS------------------
+  db.migracion.find({nombre:'Marco Antonio'})
+
+  
+  db.migracion.find({$and:[{Sexo: 'F'},{FechaNac:/^.*\/06\/.*$/}]})
+
+  ----------------REGEXP-------------------
+  db.migracion.find({apellidos:{$not:/López/}}).count()
+
+  db.migracion.find({$and:[{nombre:/A$/},{Sexo:{$not:'M'}}]})
+
+  --------------Indices-----------------
+
+  db.migracion.ensureIndex({nombre: 1, apellidos: 1, FechaIngreso: 1})
+
+  db.migracion.find({$and:[{nombre: /^Lui/}, {apellido: /z$/}]})
+
+
+  --------update------------
+  db.migracion.updateOne({ nombre: `Isabel` }, { $set:{fechaNac: `01/12/2003`}})

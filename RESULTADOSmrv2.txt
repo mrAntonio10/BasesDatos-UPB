@@ -1,0 +1,95 @@
+RESULTADO DE LA 3: 
+
+		MariaDB [ROCA_MARCO_examen]> SELECT ID_EMP, CI, NombreCompleto, Posicion, FechaNac, SalarioAnual,  RangoSalario(SalarioAnual) as Rango FROM empleado;
++--------+-----------+---------------------+----------+------------+--------------+--------+
+| ID_EMP | CI        | NombreCompleto      | Posicion | FechaNac   | SalarioAnual | Rango  |
++--------+-----------+---------------------+----------+------------+--------------+--------+
+|      1 |    456454 | Marco Roca          | Jefe     | 2001-07-01 |      1000000 | Tipo D |
+|      2 |      7897 | Luis Roca           | Gerente  | 2003-10-11 |       100000 | Tipo B |
+|      3 |      4897 | Valeria Roca        | RRHH     | 2010-12-01 |         8000 | Tipo A |
+|      4 |   2787997 | Hammed Pinto        | Jefe     | 2001-07-01 |       100000 | Tipo B |
+|      5 |     78978 | Jose Romero         | Gerente  | 2003-10-11 |        20000 | Tipo A |
+|      6 |   8465312 | Martin Hachiya      | RRHH     | 2010-12-01 |       150000 | Tipo C |
+|      7 |     12346 | Johnny Roca         | Jefe     | 2001-07-01 |      1000000 | Tipo D |
+|      8 |    156465 | Claudia Montenegro  | Gerente  | 2003-10-11 |       100000 | Tipo B |
+|      9 |    156789 | Agustina Montenegro | RRHH     | 2010-12-01 |       150000 | Tipo C |
+|     10 |  89712356 | Sol Montenegro      | RRHH     | 2010-12-01 |         8000 | Tipo A |
+|     11 | 589712356 | Rios Montenegro     | RRHH     | 2010-12-01 |         8000 | Tipo A |
+
+
+
+
+RESULTADO DE LA 4: 
+
+		
+
+	INSERT INTO PERMITIDOS VALUES (1, 12312, 'MARCO Roca', '2001-07-01', 'US', 0);
+INSERT INTO PERMITIDOS VALUES (2, 12312, 'MARCO Roca', '2001-07-01', 'XD', 1231231);
+INSERT INTO PERMITIDOS VALUES (3, 12312, 'MARCO guion', '2001-07-01', 'PE', 2323423);
+INSERT INTO PERMITIDOS VALUES (4, 12312, 'MARCO acute', '2010-07-01', 'VE', 898312);
+
+INSERT INTO PERMITIDOS VALUES (5, 12312, 'MARCO acute', '2010-07-01', 'VE', 0);
+INSERT INTO PERMITIDOS VALUES (5, 12312, 'MARCO acute', '2001-09-01', 'VE', 0);
+
+
+MariaDB [ROCA_MARCO_EXAMEN]> select * from permitidos
+    -> ;
++------+-------+----------------+------------+---------+---------+
+| ID   | CI    | NombreCompleto | Fecha_Nac  | DESTINO | VISA    |
++------+-------+----------------+------------+---------+---------+
+|    3 | 12312 | MARCO guion    | 2001-07-01 | PE      | 2323423 |
+|    5 | 12312 | MARCO acute    | 2001-09-01 | VE      |       0 |
++------+-------+----------------+------------+---------+---------+
+2 rows in set (0.000 sec)
+
+MariaDB [ROCA_MARCO_EXAMEN]>
+
+
+
+RESULTADO DE LA 2
+select count(*) from empleados_fabrica where ID=100 AND MES like concat('2023-07','%');
+
+
+SELECT ID, NOMBRE, cantidad(ID,'2023-07') FROM EMPLEADOS_FABRICA GROUP BY ID;
+
+
+
+
+
+
+mysqldump -u root -R --triggers --complete-insert=true --extended-insert=false -p ROCA_MARCO_EXAMEN > ROCA_MARCO_EXAMENv2.sql
+
+
+
+RESULTADO DE LA 1
+MariaDB [ROCA_MARCO_EXAMEN]> select * from compra;
++-----------+------------+-------------+
+| COMPRA_ID | FECHA      | COSTO_TOTAL |
++-----------+------------+-------------+
+|         1 | 2023-05-10 |          50 |
+|         2 | 2023-05-10 |          50 |
+|         3 | 2023-05-10 |          50 |
+|         4 | 2023-05-10 |          50 |
+|         5 | 2023-05-10 |          50 |
+|         1 | 2023-01-01 |         100 |
++-----------+------------+-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [ROCA_MARCO_EXAMEN]> call compra(1,'2023-08-01', 100);
++--------------------+
+| ERROR CON LA FECHA |
++--------------------+
+| ERROR CON LA FECHA |
++--------------------+
+
+
+
+MariaDB [ROCA_MARCO_EXAMEN]> DELIMITER ;
+MariaDB [ROCA_MARCO_EXAMEN]> call detalle(1,10,10,100);
+Query OK, 2 rows affected (0.040 sec)
+
+MariaDB [ROCA_MARCO_EXAMEN]> call detalle(1,2,10,100);
+Query OK, 2 rows affected (0.039 sec)
+
+MariaDB [ROCA_MARCO_EXAMEN]> call detalle(1,2,3,100);
+Query OK, 2 rows affected (0.001 sec)
